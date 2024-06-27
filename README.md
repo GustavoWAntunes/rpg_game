@@ -1,5 +1,6 @@
 # Jogo de RPG
-Projeto simples para testar conhecimentos em python e lógica de programação.
+> [!IMPORTANT]
+> Projeto simples para testar conhecimentos em python e lógica de programação.
 
 ## Sobre o Jogo
 - Escolha de ações do personagem: ataque fraco, ataque forte, ataque especial(carrega depois de 3 partidas) e cura.
