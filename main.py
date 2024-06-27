@@ -1,9 +1,18 @@
 import random
 
+# Cconstantes
+DANO_FRACO = 40
+DANO_FORTE = 60
+DANO_ESPECIAL = 100
+DANO_SOPRO_ACIDO = 60
+DANO_CHAMAS_NEGRAS = 75
+VIDA_PERSONAGEM = 200
+VIDA_DRAGAO = 300
+CURA = 30
+
+# Decide qual movimento o personagem vai usar
 def personagem(tempo, item=None):
-    dano = 0
-    if item == "sim": 
-        dano += 50
+    dano = 50 if item == True else 0
     if tempo >= 3:
         print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (B) Ataque especial\n- (A) Curar")
     else:
@@ -11,116 +20,101 @@ def personagem(tempo, item=None):
     mov = input()
     if mov.upper() == "X":
         print("Você escolheu ataque fraco!")
-        dano += 40
+        dano += DANO_FRACO
     elif mov.upper() == "Y":
         print("Você escolheu ataque forte!")
-        dano += 60
+        dano += DANO_FORTE
     elif mov.upper() == "B":
         print("Você escolheu ataque especial!")
-        dano += 100
+        dano += DANO_ESPECIAL
         tempo = 0
     elif mov.upper() == "A":
-        print("Você escolheu se curar!")
+        print("Você escolheu se curar!\n+30 de hp")
         return 1, tempo
     else:
         print("Movimento Errado!")
 
-    danos = dadoPersonagem(dano, mov, "per")
+    danos = dadoPersonagem(dano, mov)
     return danos, tempo
 
+# Decide qual movimento o Dragão vai usar
 def inimigoDrag():
     print("O Dragão vai atacar")
     mov = random.randint(1, 2)
     dano = 0
     if mov == 1:
         print("O Dragão das Sombras usa sopro ácido")
-        dano = 60
+        dano = DANO_SOPRO_ACIDO
     elif mov == 2:
-        dano = 75
+        dano = DANO_CHAMAS_NEGRAS
         print("O Dragão das Sombras usa explosão de chamas negras")
 
     danonov = dadoDragão(dano)
     return danonov
 
+# Joga no "dado" para ver a efetividade do ataque do Dragão
 def dadoDragão(dano):
-    danon = 0
     num = random.randint(1, 5)
     if num <= 2:
-        print("O Dragão errou!")
-    elif num == 3:
-        danon = dano * 0.6
-        print("O Dragão te acertou!", "\nDano: ", danon)
-    elif num == 4:
-        danon = dano * 0.8
-        print("O Dragão te acertou!", "\nDano: ", danon)
-    elif num == 5:
-        danon = dano
-        print("O Dragão te acertou!", "\nDano: ", dano)
+        print("Dano: ", num, "\nO Dragão errou!")
+        return 0
+    else:
+        efet = 0.6 if num == 3 else 0.8 if num == 4 else 1
+        dano_final = efet * dano
+        print("Dano: ", num, "\nO Dragão te acertou!", "\nDano: ", dano_final)
+        return dano_final
 
-    return danon
-
+# Imprime a descrição do inimigo
 def descInimigo():
     print("O Dragão das Sombras se aproxima")
     print("  O Dragão das Sombras é uma criatura aterrorizante que habita as profundezas das cavernas mais escuras e esquecidas. \n  Seu corpo colossal é coberto por escamas negras que absorvem a luz, tornando-o quase invisível nas sombras.\n  Seus olhos vermelhos brilham com uma inteligência maligna e um desejo insaciável de poder.")
 
+# Valida as vidas para achar algum vencedor
 def morte(vida, vidaInimigo):
-    fim = 0
     if vida <= 0:
         print("Você morreu")
-        fim = 1
+        return True
     if vidaInimigo <= 0:
         print("Você derrotou o dragão!")
-        fim = 1 
-    return fim
+        return True
+    return False
 
-def dadoPersonagem(dano, mov, carac):
+# Joga no "dado" para ver a efetividade do ataque do Personagem
+def dadoPersonagem(dano, mov):
     num = random.randint(1, 5)
-    danon = 0
-    if carac == "per":
-        if mov.upper() == 'X':
-            if num <= 2:
-                print("Dado: ", num, "\nVocê errou!") 
-            elif num == 3:
-                danon = dano * 0.6
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-            elif num == 4:
-                danon = dano * 0.8
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-            elif num == 5:
-                danon = dano
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-        elif mov.upper() == "Y":
-            if num <= 3:
-                print("Dado: ", num, "\nVocê errou!") 
-            elif num == 4:
-                danon = dano * 0.7
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-            elif num == 5:
-                danon = dano
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-        elif mov.upper() == "B":
-            if num <= 3:
-                danon = dano * 0.5
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-            elif num == 4:
-                danon = dano * 0.7
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-            elif num == 5:
-                danon = dano
-                print("Dado: ", num, "\nVocê deu ", danon, " de dano!") 
-        elif mov.upper() == "A":
-            print("Você usou cura, +20 de hp")
+    
+    if mov.upper() == 'X':
+        if num <= 2:
+            print("Dado: ", num, "\nVocê errou!")
+            return 0
         else:
-            print("Opção incorreta!")
+            efet = 0.6 if num == 3 else 0.8 if num == 4 else 1
+            dano_final = efet * dano
+            print("Dado: ", num, "\nVocê deu ", dano_final, " de dano!") 
+            return dano_final
+    elif mov.upper() == 'Y':
+        if num <= 3:
+            print("Dado: ", num, "\nVocê errou!")
+            return 0
+        else:
+            efet = 0.7 if num == 4 else 1
+            dano_final = efet * dano
+            print("Dado: ", num, "\nVocê deu ", dano_final, " de dano!") 
+            return dano_final
+    else:
+            efet = 0.5 if num in [1, 2, 3] else 0.7 if num == 4 else 1
+            dano_final = efet * dano
+            print("Dado: ", num, "\nVocê deu ", dano_final, " de dano!") 
+            return dano_final
 
-    return danon
-
+# Imprime o "menu" com as vidas dos personagens
 def menuVida(vida, vidaInimigo):
     print("_"*34)
     print("| Sua vida: ", vida, " "*15,"| ", 
             "\n| Vida Dragão das Sombras: ", vidaInimigo, " |")
     print("-"*34)
 
+# Escolher item que irá auxiliar na batalha
 def escolher_item():
     print("-"*100,"\nVocê pode escolher um entre estes três itens para te auxiliar na batalha")
     print(" Espada Flamejante - Uma espada encantada com o poder do fogo, que aumenta o dano causado em batalhas. (1)",
@@ -133,10 +127,11 @@ def escolher_item():
         else:
             print("Número de item inválido")
 
+# Aonde será chamado os outros métodos
 def main():
-    fim = 0
-    vida = 200
-    vidaInimigo = 300
+    fim = False
+    vida = VIDA_PERSONAGEM
+    vidaInimigo = VIDA_DRAGAO
     tempo = 0
     descInimigo()
     item = escolher_item()
@@ -144,41 +139,44 @@ def main():
     if item == "2":
         vida += 100
 
-    while fim == 0:
+    while fim == False:
         menuVida(vida, vidaInimigo)
         if item == "1":
-            dano, tempos = personagem(tempo, "sim")
+            dano, tempos = personagem(tempo, True)
             tempo = tempos + 1
         else:
             dano, tempos = personagem(tempo)
             tempo = tempos + 1
         if dano == 1:
-            vida += 30
+            vida += CURA
             menuVida(vida, vidaInimigo)
         else:
             vidaInimigo -= dano
             menuVida(vida, vidaInimigo)
             fim = morte(vida, vidaInimigo)
-            if fim == 1:
+            if fim == True:
                 break
+            
         danodrag = inimigoDrag()
         vida -= danodrag
         fim = morte(vida, vidaInimigo)
 
-        if fim == 1 and item == "3":
+        if fim == True and item == "3":
             print("Você usou seu Anel da Ressureição")
             vida = 80
             item =  None
-            fim = 0
+            fim = False
 
     print("Fim de Jogo")
 
+# "Menu iniciar" do jogo 
 if __name__ == "__main__":
-    g = ""
-    while g.upper() != "S":
-        print("="*100)
+    while True:
+        print("=" * 100)
         print("Iniciar: P", "\nSair: S")
-        g = input("Opção: ")
-        print("-"*100)
-        if g.upper() == "P":
+        g = input("Opção: ").upper()
+        print("-" * 100)
+        if g == "P":
             main()
+        elif g == "S":
+            break
