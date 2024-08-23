@@ -1,3 +1,28 @@
+- [English](#rpg-game) 
+- [Portuguese](#jogo-de-rpg)
+
+# RPG Game
+> [!IMPORTANT]
+> Simple project to test knowledge in Python and programming logic.
+
+## About the Game
+- Character action choices: weak attack, strong attack, special attack (available after 3 turns), and heal.
+- Enemy attacks from the Shadow Dragon with varying damage.
+- Dice roll system to determine the success of attacks (dragon and player).
+- Item selection that enhances the character's abilities (damage, health, and extra life).
+- Simple text-based interface for user interaction.
+
+## How to Play
+- Start the Game: Run the Python file to start the game. You will see an initial menu where you can choose to start the game or exit.
+- Item Selection: At the beginning of the game, you can choose an item between the Flaming Sword, Amulet of Vitality, and Resurrection Ring.
+- Combat: During combat, you will choose between different actions to attack or heal. The Shadow Dragon will also perform its attacks.
+- Win/Lose Condition: The game ends when the character's or the Shadow Dragon's health reaches zero. If you have the Resurrection Ring, you will get a second chance.
+<br/>
+
+***
+
+<br/>
+
 # Jogo de RPG
 > [!IMPORTANT]
 > Projeto simples para testar conhecimentos em python e lógica de programação.

@@ -1,6 +1,6 @@
 import random
 
-# Cconstantes
+# Constantes
 DANO_FRACO = 40
 DANO_FORTE = 60
 DANO_ESPECIAL = 100
