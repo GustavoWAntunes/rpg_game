@@ -49,11 +49,11 @@ def inimigoDrag():
         dano = DANO_CHAMAS_NEGRAS
         print("O Dragão das Sombras usa explosão de chamas negras")
 
-    danonov = dadoDragão(dano)
+    danonov = dadoDragao(dano)
     return danonov
 
 # Joga no "dado" para ver a efetividade do ataque do Dragão
-def dadoDragão(dano):
+def dadoDragao(dano):
     num = random.randint(1, 5)
     if num <= 2:
         print("Dano: ", num, "\nO Dragão errou!")
