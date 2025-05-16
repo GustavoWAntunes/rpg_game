@@ -1,4 +1,7 @@
 import random
+import os
+import time
+from colorama import init, Fore, Back, Style # trocar cor
 
 # Constantes
 DANO_FRACO = 40
@@ -10,13 +13,15 @@ VIDA_PERSONAGEM = 200
 VIDA_DRAGAO = 300
 CURA = 30
 
+init()
+
 # Decide qual movimento o personagem vai usar
 def personagem(tempo, item=None):
     dano = 50 if item == True else 0
     if tempo >= 3:
-        print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (B) Ataque especial\n- (A) Curar")
+        print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (B) Ataque especial\n- (A) Curar (+30hp)")
     else:
-        print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (A) Curar")
+        print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (A) Curar (+30hp)")
     mov = input()
     if mov.upper() == "X":
         print("Você escolheu ataque fraco!")
@@ -56,18 +61,24 @@ def inimigoDrag():
 def dadoDragao(dano):
     num = random.randint(1, 5)
     if num <= 2:
-        print("Dano: ", num, "\nO Dragão errou!")
+        print("Dado: ", num, "\nO Dragão errou!")
         return 0
     else:
         efet = 0.6 if num == 3 else 0.8 if num == 4 else 1
         dano_final = efet * dano
-        print("Dano: ", num, "\nO Dragão te acertou!", "\nDano: ", dano_final)
+        print("Dado: ", num, "\nO Dragão te acertou!", "\nDano: ", dano_final)
         return dano_final
 
 # Imprime a descrição do inimigo
-def descInimigo():
-    print("O Dragão das Sombras se aproxima")
-    print("  O Dragão das Sombras é uma criatura aterrorizante que habita as profundezas das cavernas mais escuras e esquecidas. \n  Seu corpo colossal é coberto por escamas negras que absorvem a luz, tornando-o quase invisível nas sombras.\n  Seus olhos vermelhos brilham com uma inteligência maligna e um desejo insaciável de poder.")
+def descricaoMenu(): # acrescentar uma "imagem"
+    print(f"{Fore.RED}  █████  ████████  █████   ██████  ██    ██ ███████     ██████   ██████      ██████  ██████   █████   ██████   █████   ██████\n", 
+                      "██   ██    ██    ██   ██ ██    ██ ██    ██ ██          ██   ██ ██    ██     ██   ██ ██   ██ ██   ██ ██       ██   ██ ██    ██\n", 
+                      "███████    ██    ███████ ██    ██ ██    ██ █████       ██   ██ ██    ██     ██   ██ ██████  ███████ ██   ███ ███████ ██    ██\n",
+                      "██   ██    ██    ██   ██ ██ ▄▄ ██ ██    ██ ██          ██   ██ ██    ██     ██   ██ ██   ██ ██   ██ ██    ██ ██   ██ ██    ██\n",
+                      "██   ██    ██    ██   ██  ██████   ██████  ███████     ██████   ██████      ██████  ██   ██ ██   ██  ██████  ██   ██  ██████\n"
+                     "                              ▀▀                                                                                               ")
+    print(f"{Style.RESET_ALL}O Dragão das Sombras se aproxima")
+    print("  O Dragão das Sombras é uma criatura aterrorizante que habita as profundezas das cavernas mais escuras e esquecidas. \n  Seu corpo colossal é coberto por escamas negras que absorvem a luz, tornando-o quase invisível nas sombras.\n  Seus olhos vermelhos brilham com uma inteligência maligna e um desejo insaciável de poder.\n")
 
 # Valida as vidas para achar algum vencedor
 def morte(vida, vidaInimigo):
@@ -85,21 +96,21 @@ def dadoPersonagem(dano, mov):
     
     if mov.upper() == 'X':
         if num <= 2:
-            print("Dado: ", num, "\nVocê errou!")
+            print(f"Dado: {num} {Fore.RED}\nVocê errou!{Style.RESET_ALL}")
             return 0
         else:
             efet = 0.6 if num == 3 else 0.8 if num == 4 else 1
             dano_final = efet * dano
-            print("Dado: ", num, "\nVocê deu ", dano_final, " de dano!") 
+            print(f"Dado: {num} \nVocê deu {dano_final} de dano!") 
             return dano_final
     elif mov.upper() == 'Y':
         if num <= 3:
-            print("Dado: ", num, "\nVocê errou!")
+            print(f"Dado: {num} {Fore.RED}\nVocê errou!{Style.RESET_ALL}")
             return 0
         else:
             efet = 0.7 if num == 4 else 1
             dano_final = efet * dano
-            print("Dado: ", num, "\nVocê deu ", dano_final, " de dano!") 
+            print("Dado: ", num, "\nVocê deu ", dano_final, " de dano!")
             return dano_final
     else:
             efet = 0.5 if num in [1, 2, 3] else 0.7 if num == 4 else 1
@@ -117,9 +128,10 @@ def menuVida(vida, vidaInimigo):
 # Escolher item que irá auxiliar na batalha
 def escolher_item():
     print("-"*100,"\nVocê pode escolher um entre estes três itens para te auxiliar na batalha")
-    print(" Espada Flamejante - Uma espada encantada com o poder do fogo, que aumenta o dano causado em batalhas. (1)",
-          "\n Amuleto da Vitalidade - Um amuleto que contém uma poderosa energia de cura, aumentando a vida do portador. (2)",
-          "\n Anel da Ressureição - Um anel raro que concede ao usuário uma segunda chance de vida ao ser derrotado. (3)")
+    print(f" [1] {Fore.LIGHTRED_EX}Espada Flamejante - Uma espada encantada com o poder do fogo, que aumenta o dano causado em batalhas.{Style.RESET_ALL}")
+    print(f" [2] {Fore.YELLOW}Amuleto da Vitalidade - Um amuleto que contém uma poderosa energia de cura, aumentando a vida do portador.{Style.RESET_ALL}")
+    print(f" [3] {Fore.LIGHTCYAN_EX}Anel da Ressureição - Um anel raro que concede ao usuário uma segunda chance de vida ao ser derrotado.{Style.RESET_ALL}")
+    
     while True:
         item = input("Item n*: ")
         if item in ["1", "2", "3"]:
@@ -133,11 +145,13 @@ def main():
     vida = VIDA_PERSONAGEM
     vidaInimigo = VIDA_DRAGAO
     tempo = 0
-    descInimigo()
     item = escolher_item()
 
     if item == "2":
         vida += 100
+
+    time.sleep(1) # espera 1 seg
+    os.system('cls') # executa 'cls' no terminal para limpar
 
     while fim == False:
         menuVida(vida, vidaInimigo)
@@ -171,12 +185,17 @@ def main():
 
 # "Menu iniciar" do jogo 
 if __name__ == "__main__":
+    time.sleep(1)
+    os.system("cls")
+    descricaoMenu()
     while True:
+        print("\n")
         print("=" * 100)
-        print("Iniciar: P", "\nSair: S")
+        print(" "*40,"Iniciar: S | Sair: E\n")
         g = input("Opção: ").upper()
-        print("-" * 100)
-        if g == "P":
+        if g == "S":
+            time.sleep(1)
+            os.system("cls")
             main()
-        elif g == "S":
+        elif g == "E":
             break
