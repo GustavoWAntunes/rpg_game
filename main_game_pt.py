@@ -19,7 +19,7 @@ init()
 def personagem(tempo, item=None):
     dano = 50 if item == True else 0
     if tempo >= 3:
-        print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (B) Ataque especial\n- (A) Curar (+30hp)")
+        print(f"Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- {Fore.YELLOW}(B) Ataque especial{Style.RESET_ALL}\n- (A) Curar (+30hp)")
     else:
         print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (A) Curar (+30hp)")
     mov = input()
@@ -30,7 +30,7 @@ def personagem(tempo, item=None):
         print("Você escolheu ataque forte!")
         dano += DANO_FORTE
     elif mov.upper() == "B":
-        print("Você escolheu ataque especial!")
+        print(f"Você escolheu {Fore.YELLOW}ataque especial{Style.RESET_ALL}!") 
         dano += DANO_ESPECIAL
         tempo = 0
     elif mov.upper() == "A":
@@ -61,7 +61,7 @@ def inimigoDrag():
 def dadoDragao(dano):
     num = random.randint(1, 5)
     if num <= 2:
-        print("Dado: ", num, "\nO Dragão errou!")
+        print(f"Dado: {num} {Fore.RED}\nO Dragão errou!{Style.RESET_ALL}")
         return 0
     else:
         efet = 0.6 if num == 3 else 0.8 if num == 4 else 1
@@ -83,10 +83,10 @@ def descricaoMenu(): # acrescentar uma "imagem"
 # Valida as vidas para achar algum vencedor
 def morte(vida, vidaInimigo):
     if vida <= 0:
-        print("Você morreu")
+        print(f"{Fore.RED}Você morreu{Style.RESET_ALL}")
         return True
     if vidaInimigo <= 0:
-        print("Você derrotou o dragão!")
+        print(f"{Fore.GREEN}Você derrotou o dragão!{Style.RESET_ALL}")
         return True
     return False
 
@@ -120,6 +120,8 @@ def dadoPersonagem(dano, mov):
 
 # Imprime o "menu" com as vidas dos personagens
 def menuVida(vida, vidaInimigo):
+    if (vidaInimigo < 0):
+        vidaInimigo = 0
     print("_"*34)
     print("| Sua vida: ", vida, " "*15,"| ", 
             "\n| Vida Dragão das Sombras: ", vidaInimigo, " |")
