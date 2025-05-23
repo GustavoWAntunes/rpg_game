@@ -18,10 +18,11 @@ init()
 # Decide qual movimento o personagem vai usar
 def personagem(tempo, item=None):
     dano = 50 if item == True else 0
+    msg = "Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (A) Curar (+30hp)"
     if tempo >= 3:
-        print(f"Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- {Fore.YELLOW}(B) Ataque especial{Style.RESET_ALL}\n- (A) Curar (+30hp)")
+        print(f"{msg}\n- {Fore.YELLOW}(B) Ataque especial{Style.RESET_ALL}\n")
     else:
-        print("Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (A) Curar (+30hp)")
+        print(msg)
     mov = input()
     if mov.upper() == "X":
         print("Você escolheu ataque fraco!")
