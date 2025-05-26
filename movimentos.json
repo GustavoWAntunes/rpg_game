@@ -1,25 +1,42 @@
 {
   "GOLPE FRACO": {
-    "1": 40,
-    "2": 50,
-    "3": 30
+    "1": {
+    "DANO": 40,
+    "GOLPE": "Corte Veloz",
+    "MENOS_MANA" : 0,
+    "MAIS_VIDA" : 0
+    },
+    "2": {
+    "DANO": 50,
+    "GOLPE": "Rajada Gelada",
+    "MENOS_MANA" : 20,
+    "MAIS_VIDA" : 0
+    },
+    "3": {
+    "DANO": 30,
+    "GOLPE": "Benção da Luz",
+    "MENOS_MANA" : 0,
+    "MAIS_VIDA" : 20
+    }
   },
   "GOLPE FORTE": {
-    "1": 60,
-    "2": 80,
-    "3": 50
-  },
-  "MANA": {
-
-  },
-  "CURA": {
-    "CURA 1": 20,
-    "CURA 2": 50
+    "1": {
+    "DANO": 40,
+    "GOLPE": "Lâmina Astuta",
+    "MENOS_MANA" : 0,
+    "MAIS_VIDA" : 0
+    },
+    "2": {
+    "DANO": 80,
+    "GOLPE": "Raio Eterno",
+    "MENOS_MANA" : 50,
+    "MAIS_VIDA" : 0
+    },
+    "3": {
+    "DANO": 50,
+    "GOLPE": "Fúria Ardente",
+    "MENOS_MANA" : 0,
+    "MAIS_VIDA" : 50
+    }
   }
-
-
-
-
-  "MANA: 1": 10,
-  "MANA: 2": 50
 }
