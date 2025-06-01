@@ -12,7 +12,7 @@ DANO_ESPECIAL = 100
 VIDA_PERSONAGEM = 200
 VIDA_DRAGAO = 300
 CURA = 30
-MANA = 100 # recupera 10 a cada turno
+MANA = 100 # recupera 5 a cada turno
 
 init()
 
@@ -69,8 +69,8 @@ def main():
         dano, vida, mana = pg.movimento_personagem(nome, lista_set_fraco, lista_set_forte, vida, mana)
         
         if (mana < 100):
-            print("Recarga de MANA + 10")
-            mana += 10
+            print("Recarga de MANA + 5")
+            mana += 5
             
         vidaInimigo -= dano
         menuVida(nome, mana, vida, vidaInimigo) 

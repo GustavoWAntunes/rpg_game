@@ -1,26 +1,34 @@
 import json
 import random
 from colorama import init, Fore, Back, Style
+import os
+import time
 
 init()
+
+    # time.sleep(1) # espera 1 seg
+    # os.system('cls') # executa 'cls' no terminal para limpar
 
 # escolha suas habilidaes
 def create_caracter():
     print("======= Crie seu Personagem =======")
     nome = input("Escolha seu nome: ")
+
+    time.sleep(0.5)
+    os.system('cls')
+
     print("ESCOLHA AS SUAS HABILIDADES(APENAS DUAS):")
 
     # DANO "FRACO"
     print("[1] Corte Veloz(40 de dano) - Dê um corte rápido no inimigo")
     print("[2] Rajada Gelada(50 de dano, - 20 de Mana) - Lance uma forte rajada de gelo no inimigo")
-    print("[3] Benção da Luz(30 de dano, + 20 de vida) - Cegue o inimigo e ganhe tempo")
+    print("[3] Benção da Luz(30 de dano, + 5 de vida) - Cegue o inimigo e ganhe tempo")
     dano_fraco = input("Escolha seu dano fraco: ")
  
-
     # DANO "FORTE"
     print("[1] Lâmina Astuta(60 de dano) - Dê uma forte estocada no inimigo")
     print("[2] Raio Eterno(80 de dano, -50 de Mana) - Eletrecute o inimigo")
-    print("[3] Fúria Ardente(50 de dano, +50 de vida) - Use sua raiva para lutar sem medo de se machucar!(porém você é meio fraco)")
+    print("[3] Fúria Ardente(50 de dano, +20 de vida) - Use sua raiva para lutar sem medo de se machucar!(porém você é meio fraco)")
     dano_forte = input("Escolha seu dano fraco: ")
 
     # escolher_item()
@@ -99,7 +107,7 @@ def movimento_personagem(nome, lista_set_fraco, lista_set_forte, vida_personagem
     print(f"Escolha sua ação: \n (Q) {nome_golpe_fraco}\n (W) {nome_golpe_forte}\n (E) Curar (+30hp)")
     mov = input()
 
-    if mov.upper() == "Q":
+    if mov.upper() == "Q": # validação se tem mana o suficiente e se a vida já está cheia
         print(f"{nome} escolheu {nome_golpe_fraco}")
         print(f"+ {mais_vida_fraco} de vida") if mais_vida_fraco > 0 else None
         print(f"- {menos_mana_fraco} de mana") if menos_mana_fraco > 0 else None
@@ -110,7 +118,7 @@ def movimento_personagem(nome, lista_set_fraco, lista_set_forte, vida_personagem
         print(f"{nome} escolheu {nome_golpe_forte}")
         print(f"+ {mais_vida_forte} de vida") if mais_vida_forte > 0 else None
         print(f"- {menos_mana_forte} de mana") if menos_mana_forte > 0 else None
-        dano = dadoPersonagem(dano_fraco, "W")
+        dano = dadoPersonagem(dano_forte, "W")
         vida_personagem += mais_vida_forte
         mana_personagem -= menos_mana_forte
     elif mov.upper() == "E":

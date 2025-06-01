@@ -1,63 +1,71 @@
-import personagem as pg
-nome = ""
-lista_set_fraco = []
-lista_set_forte = []
+import pygame
+import random
 
-nome, lista_set_fraco, lista_set_forte = pg.create_caracter()
+# Inicializa o Pygame
+pygame.init()
 
-nome_golpe_fraco = lista_set_fraco[0]
-nome_golpe_forte = lista_set_forte[0]
+# Configurações da tela
+LARGURA, ALTURA = 800, 600
+tela = pygame.display.set_mode((LARGURA, ALTURA))
+pygame.display.set_caption("Batalha RPG - Pygame")
 
-dano_fraco = lista_set_fraco[1]
-dano_forte = lista_set_forte[1]
+# Cores
+BRANCO = (255, 255, 255)
+VERMELHO = (255, 0, 0)
+VERDE = (0, 255, 0)
+PRETO = (0, 0, 0)
 
-mais_vida_fraco = lista_set_fraco[2]
-mais_vida_forte = lista_set_forte[2]
+# Fonte
+fonte = pygame.font.SysFont("arial", 30)
 
-menos_mana_fraco = lista_set_fraco[3]
-menos_mana_forte = lista_set_forte[3]
+# Atributos do jogador e inimigo
+vida_jogador = 200
+vida_inimigo = 300
 
-print(f"Escolha sua ação: \n (Q) {nome_golpe_fraco}\n (W) {nome_golpe_forte}\n (E) Curar (+30hp)")
-mov = input()
+# Loop principal
+rodando = True
+while rodando:
+    tela.fill(PRETO)
 
-if mov.upper() == "Q":
-    print(f"{nome} escolheu {nome_golpe_fraco}")
-    print(f"+ {mais_vida_fraco} de vida") if mais_vida_fraco > 0 else None
-    print(f"- {menos_mana_fraco} de mana") if menos_mana_fraco > 0 else None
-elif mov.upper() == "W":
-    print(f"{nome} escolheu {nome_golpe_forte}")
-    print(f"+ {mais_vida_forte} de vida") if mais_vida_forte > 0 else None
-    print(f"- {menos_mana_forte} de mana") if menos_mana_forte > 0 else None
-elif mov.upper() == "E":
-    print(f"{nome} escolheu se curar!\n+30 de hp.")
+    # Eventos
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            rodando = False
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_a:
+                dano = random.randint(30, 50)
+                vida_inimigo -= dano
+            elif evento.key == pygame.K_s:
+                dano = random.randint(60, 80)
+                vida_inimigo -= dano
+            elif evento.key == pygame.K_d:
+                vida_jogador += 30
+                if vida_jogador > 200:
+                    vida_jogador = 200
 
-# roda dado
-#retorna o dano
+    # Ataque do inimigo
+    if random.random() < 0.01:
+        dano = random.randint(40, 60)
+        vida_jogador -= dano
 
-# Decide qual movimento o personagem vai usar
-# def personagem(tempo, item=None):
-#     dano = 50 if item == True else 0
-#     msg = "Escolha a sua ação: \n- (X) Ataque fraco\n- (Y) Ataque forte\n- (A) Curar (+30hp)"
-#     if tempo >= 3:
-#         print(f"{msg}\n- {Fore.YELLOW}(B) Ataque especial{Style.RESET_ALL}\n")
-#     else:
-#         print(msg)
-#     mov = input()
-#     if mov.upper() == "X":
-#         print("Você escolheu ataque fraco!")
-#         dano += DANO_FRACO
-#     elif mov.upper() == "Y":
-#         print("Você escolheu ataque forte!")
-#         dano += DANO_FORTE
-#     elif mov.upper() == "B":
-#         print(f"Você escolheu {Fore.YELLOW}ataque especial{Style.RESET_ALL}!") 
-#         dano += DANO_ESPECIAL
-#         tempo = 0
-#     elif mov.upper() == "A":
-#         print("Você escolheu se curar!\n+30 de hp")
-#         return 1, tempo
-#     else:
-#         print("Movimento Errado!")
+    # Barras de vida
+    pygame.draw.rect(tela, VERMELHO, (50, 50, 200, 25))
+    pygame.draw.rect(tela, VERDE, (50, 50, max(0, vida_jogador), 25))
 
-#     danos = pg.dadoPersonagem(dano, mov)
-#     return danos, tempo
+    pygame.draw.rect(tela, VERMELHO, (550, 50, 200, 25))
+    pygame.draw.rect(tela, VERDE, (550, 50, max(0, vida_inimigo), 25))
+
+    # Texto
+    texto1 = fonte.render("A: Ataque Fraco", True, BRANCO)
+    texto2 = fonte.render("S: Ataque Forte", True, BRANCO)
+    texto3 = fonte.render("D: Curar", True, BRANCO)
+
+    tela.blit(texto1, (50, 500))
+    tela.blit(texto2, (50, 540))
+    tela.blit(texto3, (50, 580))
+
+    # Atualiza a tela
+    pygame.display.flip()
+    pygame.time.delay(50)
+
+pygame.quit()

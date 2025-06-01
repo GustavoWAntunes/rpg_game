@@ -16,7 +16,7 @@
     "DANO": 30,
     "GOLPE": "Benção da Luz",
     "MENOS_MANA" : 0,
-    "MAIS_VIDA" : 20
+    "MAIS_VIDA" : 5
     }
   },
   "GOLPE FORTE": {
@@ -36,7 +36,7 @@
     "DANO": 50,
     "GOLPE": "Fúria Ardente",
     "MENOS_MANA" : 0,
-    "MAIS_VIDA" : 50
+    "MAIS_VIDA" : 20
     }
   }
 }
